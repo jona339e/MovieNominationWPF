@@ -34,25 +34,30 @@ namespace MovieNomination.ViewModel
         [RelayCommand]
         public void OnConfirm()
         {
-            if (ValidationCheck())
+            MainWindowModel model = new MainWindowModel
             {
-                MainWindowModel model = new MainWindowModel
-                {
-                    movieTitle = MovieTitle,
-                    directorName = MovieDirector,
-                    releaseDate = ReleaseDate,
-                    rating = SelectedRating
-
-                };
-                model.SqlInsert();
-            }
-            else
+                movieTitle = MovieTitle,
+                directorName = MovieDirector,
+                releaseDate = ReleaseDate,
+                rating = SelectedRating
+            };
+            if (!ValidateNotEmpty())
             {
                 MessageBox.Show("Venligst udfyld alle data.");
             }
+            else if (model.TableHasRowsTitle())
+            {
+                MessageBox.Show("Film eksisterer alleredede.");
+            }
+            else
+            {
+                model.SqlInsert();
+                MessageBox.Show("Film nominering opretet!");
+            }
+            ResetInput();
         }
 
-        private bool ValidationCheck()
+        private bool ValidateNotEmpty()
         {
             if (movieTitle == string.Empty || movieDirector == string.Empty)
             {
@@ -67,12 +72,16 @@ namespace MovieNomination.ViewModel
         [RelayCommand]
         public void OnCancel()
         {
+            ResetInput();
+        }
+
+        private void ResetInput()
+        {
             MovieTitle = string.Empty;
             MovieDirector = string.Empty;
             ReleaseDate = DateTime.Now;
             SelectedRating = RatingList[0];
         }
-
 
     }
 }

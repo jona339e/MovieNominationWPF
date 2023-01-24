@@ -17,14 +17,17 @@ namespace MovieNomination.Model
         public int rating { get; set; }
 
 
-        // Business Logic
+        // Business Logic / Sql Logic
 
-        public void SqlInsert()
-        {
-            const string connectionString = @"Data Source=192.168.99.60, 1433;
+
+        const string connectionString = @"Data Source=192.168.99.60, 1433;
                                             Initial Catalog=MovieNominationDB;
                                             User ID=WPFLogin;Password=Passw0rd;
                                             encrypt=false;";
+
+        public void SqlInsert()
+        {
+
 
             try
             {
@@ -48,6 +51,28 @@ namespace MovieNomination.Model
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        public bool TableHasRowsTitle()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand cmd = new("SELECT MOVIETITLE FROM MOVIE WHERE MOVIETITLE = '@movietitle'", connection);
+                    cmd.Parameters.AddWithValue("@movietitle", movieTitle);
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    return dr.HasRows;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return true;
         }
 
     }
