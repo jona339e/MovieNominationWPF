@@ -1,0 +1,101 @@
+﻿<Window x:Class="MovieNomination.View.GridTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MovieNomination.View"
+        xmlns:viewmodel="clr-namespace:MovieNomination.ViewModel"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewmodel:GridTestViewModel}"
+        
+        Title="GridTest" Height="450" Width="800">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+
+            <ColumnDefinition Width="30" />
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+
+            <RowDefinition Height="auto" />
+
+            <RowDefinition Height="*" />
+
+            <RowDefinition Height="30" />
+
+        </Grid.RowDefinitions>
+
+
+
+        <DataGrid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Width="500"
+                  Height="200" ItemsSource="{Binding Test}" 
+                  AutoGenerateColumns="False" Name="TestGrid">
+            
+            <DataGrid.Columns>
+                
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="MovieTitle" Binding="{Binding movieTitle}"/>
+                <DataGridTextColumn Header="MovieDirector" Binding="{Binding movieDirector}"/>
+                <DataGridTextColumn Header="Release Date" Binding="{Binding releaseDate}"/>
+                <DataGridTextColumn Header="Rating" Binding="{Binding rating}"/>
+
+
+                <DataGridTemplateColumn Header="Create">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="btnCreate" Content="Create" Command="{Binding CreateCommand}" >
+                                <Button.DataContext>
+                                    <viewmodel:GridTestViewModel/>
+                                </Button.DataContext>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Update">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="btnUpdate" Content="Update" Click="btnUpdate_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                
+                <DataGridTemplateColumn Header="Delete">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Name="btnDelete" Content="Delete" Click="btnDelete_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>            
+                
+                </DataGridTemplateColumn>
+                
+                
+                
+                
+                
+            
+            </DataGrid.Columns>
+       
+        </DataGrid>
+        
+        
+        
+    </Grid>
+</Window>

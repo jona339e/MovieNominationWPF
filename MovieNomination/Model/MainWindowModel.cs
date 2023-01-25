@@ -20,7 +20,7 @@ namespace MovieNomination.Model
         // Business Logic / Sql Logic
 
 
-        const string connectionString = @"Data Source=192.168.99.60, 1433;
+        const string connectionString = @"Data Source=172.20.55.225, 1433;
                                             Initial Catalog=MovieNominationDB;
                                             User ID=WPFLogin;Password=Passw0rd;
                                             encrypt=false;";
