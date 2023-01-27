@@ -26,7 +26,7 @@ namespace MovieNomination.Model
 
 
 
-        const string connectionString = @"Data Source=172.20.55.225, 1433;
+        const string connectionString = @"Data Source=172.24.24.111, 1433;
                                             Initial Catalog=MovieNominationDB;
                                             User ID=WPFLogin;Password=Passw0rd;
                                             encrypt=false;";
@@ -34,7 +34,7 @@ namespace MovieNomination.Model
 
         public List<GridTestModel> getData()
         {
-            List<GridTestModel> myList = new();
+            List<GridTestModel> returnList = new();
 
             try
             {
@@ -58,11 +58,11 @@ namespace MovieNomination.Model
                         data.rating = dr.GetInt32(4);
 
 
-                        myList.Add(data);
+                        returnList.Add(data);
                     }
 
 
-                    return myList;
+                    return returnList;
                 }
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace MovieNomination.Model
         }
 
 
-        public void InsertData(GridTestModel insertModel)
+        public void InsertData(GridTestModel model)
         {
             try
             {
@@ -82,10 +82,10 @@ namespace MovieNomination.Model
                     connection.Open();
 
                     SqlCommand cmd = new("INSERT INTO MOVIE VALUES(@movieTitle, @directorName, @releaseDate, @rating)", connection);
-                    cmd.Parameters.AddWithValue("@movieTitle", insertModel.movieTitle);
-                    cmd.Parameters.AddWithValue("@directorName", insertModel.directorName);
-                    cmd.Parameters.AddWithValue("@releaseDate", insertModel.releaseDate);
-                    cmd.Parameters.AddWithValue("@rating", insertModel.rating);
+                    cmd.Parameters.AddWithValue("@movieTitle", model.movieTitle);
+                    cmd.Parameters.AddWithValue("@directorName", model.directorName);
+                    cmd.Parameters.AddWithValue("@releaseDate", model.releaseDate);
+                    cmd.Parameters.AddWithValue("@rating", model.rating);
 
                     SqlDataAdapter da = new();
                     da.InsertCommand = cmd;
@@ -98,28 +98,36 @@ namespace MovieNomination.Model
             }
         }
 
-        // used in an instance of this class
-        public void UpdateData()
+        public void UpdateData(GridTestModel model)
         {
+            
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+
                     connection.Open();
 
-                    SqlCommand cmd = new("INSERT INTO MOVIE VALUES()", connection);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@movieTitle", movieTitle);
-                    cmd.Parameters.AddWithValue("@directorName",directorName);
-                    cmd.Parameters.AddWithValue("@releaseDate", releaseDate);
-                    cmd.Parameters.AddWithValue("@rating", rating);
 
-                    SqlDataAdapter da = new();
-                    da.InsertCommand = cmd;
-                    da.InsertCommand.ExecuteNonQuery();
+                    using (SqlCommand cmd = new("UPDATE MOVIE SET MOVIETITLE = @movieTitle, DIRECTORNAME = @directorName, RELEASEDATE = @releaseDate, RATING = @rating WHERE ID = @id", connection))
+                    {
 
+                        cmd.Parameters.AddWithValue("@id", model.id);
+                        cmd.Parameters.AddWithValue("@movieTitle", model.movieTitle);
+                        cmd.Parameters.AddWithValue("@directorName", model.directorName);
+                        cmd.Parameters.AddWithValue("@releaseDate", model.releaseDate);
+                        cmd.Parameters.AddWithValue("@rating", model.rating);
+
+
+                        using (SqlDataAdapter da = new())
+                        {
+
+                            da.UpdateCommand = cmd;
+                            da.UpdateCommand.ExecuteNonQuery();
+
+                        }
+                    }
                 }
-
             }
             catch (Exception ex)
             {

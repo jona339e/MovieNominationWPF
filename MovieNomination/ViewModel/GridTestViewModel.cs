@@ -30,6 +30,7 @@ namespace MovieNomination.ViewModel
         { 
             int i = 0;
 
+            // maybe it would make more sense to run through testhelper instead of test
 
             foreach (var item in Test)
             {
@@ -42,6 +43,8 @@ namespace MovieNomination.ViewModel
                 i++;
             }
 
+
+            // resets Test to update dataGrid
             Test = null;
             Test = testHelper;
 
@@ -68,7 +71,31 @@ namespace MovieNomination.ViewModel
 
         public void OnUpdate(GridTestModel model)
         {
-            if (validateOtherTitles(model) && validateRating(model)) model.UpdateData();
+            if (validateOtherTitles(model) && validateRating(model))
+            {
+                model.UpdateData(model);
+
+
+                // Find test index where test.id == model.id
+                // replace data in testhelper
+                // update test
+                int i = 0;
+                foreach (var item in testHelper)
+                {
+                    if (item.id == model.id)
+                    {
+                        testHelper[i] = model;
+                        break;
+                    }
+                    i++;
+                }
+
+                // resets Test to update dataGrid
+
+                Test.Clear();
+                Test = testHelper;
+
+            }
 
         }
 
