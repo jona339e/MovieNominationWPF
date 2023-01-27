@@ -45,20 +45,17 @@
             <DataGrid.Columns>
                 
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="MovieTitle" Binding="{Binding movieTitle}"/>
-                <DataGridTextColumn Header="MovieDirector" Binding="{Binding movieDirector}"/>
-                <DataGridTextColumn Header="Release Date" Binding="{Binding releaseDate}"/>
-                <DataGridTextColumn Header="Rating" Binding="{Binding rating}"/>
+                <DataGridTextColumn Header="MovieTitle" Binding="{Binding MovieTitle}"/>
+                <DataGridTextColumn Header="MovieDirector" Binding="{Binding DirectorName}"/>
+                <DataGridTextColumn Header="Release Date" Binding="{Binding ReleaseDate}"/>
+                <DataGridTextColumn Header="Rating" Binding="{Binding Rating}"/>
 
 
                 <DataGridTemplateColumn Header="Create">
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Name="btnCreate" Content="Create" Command="{Binding CreateCommand}" >
-                                <Button.DataContext>
-                                    <viewmodel:GridTestViewModel/>
-                                </Button.DataContext>
+                            <Button Name="btnCreate" Content="Create" Click="btnCreate_Click" >
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

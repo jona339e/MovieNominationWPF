@@ -56,17 +56,15 @@ namespace MovieNomination.ViewModel
 
         // inserts data if validation is successful
         [RelayCommand]
-        public void OnCreate()
+        public void OnCreate(GridTestModel model)
         {
 
-            
+            //MessageBox.Show($"{model.id} | {model.movieTitle} | {model.directorName} | {model.releaseDate} | {model.rating} | ");
+
+            if (ValidateData(model)) model.InsertData(model);
+            else MessageBox.Show("Validation failed.. try again!");
 
 
-            MessageBox.Show(Test.Last().movieTitle);
-
-            // model.InsertData(model);
-
-            //if (ValidateData(model)) model.InsertData();
         }
 
         public void OnUpdate(GridTestModel model)
@@ -96,6 +94,7 @@ namespace MovieNomination.ViewModel
                 Test = testHelper;
 
             }
+            else MessageBox.Show("Validation Failed");
 
         }
 
@@ -119,6 +118,7 @@ namespace MovieNomination.ViewModel
 
         }
 
+        // TODO: Test is alreayd added and it looks to so if title exist
 
         // checks if movieTitle already exists
         private bool ValidateTitle(GridTestModel model)
@@ -137,7 +137,11 @@ namespace MovieNomination.ViewModel
         // checks if rating is valid
         private bool validateRating(GridTestModel model)
         {
-            return model.rating < 1 || model.rating > 6;
+            if (model.rating < 1 || model.rating > 6)
+            {
+                return false;
+            }
+            else return true;
         }
 
         private bool validateOtherTitles(GridTestModel model)

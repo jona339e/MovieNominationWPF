@@ -9,13 +9,18 @@ using System.Windows;
 
 namespace MovieNomination.Model
 {
-    public class GridTestModel
+    public partial class GridTestModel : ObservableObject
     {
-        public int id { get; set; }
-        public string movieTitle { get; set; }
-        public string directorName { get; set; }
-        public DateTime releaseDate { get; set; } = DateTime.Now;
-        public int rating { get; set; } = 1;
+        [ObservableProperty]
+        public int id;
+        [ObservableProperty]
+        public string movieTitle;
+        [ObservableProperty]
+        public string directorName;
+        [ObservableProperty]
+        public DateTime releaseDate = DateTime.Now;
+        [ObservableProperty]
+        public int rating;
 
 
 
@@ -25,9 +30,8 @@ namespace MovieNomination.Model
 
 
 
-
-        const string connectionString = @"Data Source=172.24.24.111, 1433;
-                                            Initial Catalog=MovieNominationDB;
+        const string connectionString = @"Data Source=172.23.225.127, 1433;
+                                            Initial Catalog=MovieNomination;
                                             User ID=WPFLogin;Password=Passw0rd;
                                             encrypt=false;";
 

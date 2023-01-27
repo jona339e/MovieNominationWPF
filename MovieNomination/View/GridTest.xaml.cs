@@ -22,11 +22,15 @@ namespace MovieNomination.View
     /// </summary>
     public partial class GridTest : Window
     {
-        GridTestViewModel viewModel = new();
+        public GridTestViewModel viewModel { get; set; }
+
         public GridTest()
         {
-            InitializeComponent();
+            GridTestViewModel viewModel = new();
+            this.viewModel = viewModel;
+
             DataContext = viewModel;
+            InitializeComponent();
 
         }
 
@@ -43,11 +47,25 @@ namespace MovieNomination.View
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+
+            TestGrid.CommitEdit(); // this is needed or the gtm will contain un-edited data
+            GridTestModel gtm = this.TestGrid.SelectedItem as GridTestModel;
+            if (gtm != null)
+            {
+                
+                viewModel.OnUpdate(gtm);
+
+            }
+        }
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            TestGrid.CommitEdit(); // this is needed or the gtm will contain un-edited data
             GridTestModel gtm = this.TestGrid.SelectedItem as GridTestModel;
             if (gtm != null)
             {
 
-                viewModel.OnUpdate(gtm);
+                viewModel.OnCreate(gtm);
 
             }
         }
