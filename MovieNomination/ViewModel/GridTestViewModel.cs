@@ -23,7 +23,8 @@ namespace MovieNomination.ViewModel
         public GridTestViewModel()
         {
             Test = model.getData();
-            testHelper = Test;
+            testHelper = Test.ToList();
+            // if i do testHelper = Test testHelper mirrors Test, so if i change Test testHelper also gets changed
         }
 
         public void OnDelete(GridTestModel model)
@@ -45,8 +46,8 @@ namespace MovieNomination.ViewModel
 
 
             // resets Test to update dataGrid
-            Test = null;
-            Test = testHelper;
+            Test.Clear();
+            Test = testHelper.ToList();
 
         }
 
@@ -59,11 +60,25 @@ namespace MovieNomination.ViewModel
         public void OnCreate(GridTestModel model)
         {
 
-            //MessageBox.Show($"{model.id} | {model.movieTitle} | {model.directorName} | {model.releaseDate} | {model.rating} | ");
+            // Method that validates if model exist in testhelper
+            // if it does exist set test = to null and then test = testhelper
+            // if it doesn't exist update testhelper and insert into database
 
-            if (ValidateData(model)) model.InsertData(model);
-            else MessageBox.Show("Validation failed.. try again!");
 
+            if (ValidateData(model))
+            {
+                model.id = testHelper.Last().id++;
+                testHelper.Add(model);
+                Test.Clear();
+                Test = testHelper.ToList();
+                model.InsertData(model);
+            }
+            else
+            {
+                Test.Clear();
+                Test = testHelper;
+                MessageBox.Show("Validation failed.. try again!");
+            }
 
         }
 
@@ -91,7 +106,7 @@ namespace MovieNomination.ViewModel
                 // resets Test to update dataGrid
 
                 Test.Clear();
-                Test = testHelper;
+                Test = testHelper.ToList();
 
             }
             else MessageBox.Show("Validation Failed");
@@ -118,12 +133,11 @@ namespace MovieNomination.ViewModel
 
         }
 
-        // TODO: Test is alreayd added and it looks to so if title exist
 
         // checks if movieTitle already exists
         private bool ValidateTitle(GridTestModel model)
         {
-            foreach (var item in Test)
+            foreach (var item in testHelper)
             {
                 if (item.movieTitle == model.movieTitle)
                 {
@@ -146,7 +160,7 @@ namespace MovieNomination.ViewModel
 
         private bool validateOtherTitles(GridTestModel model)
         {
-            foreach (var item in Test)
+            foreach (var item in testHelper)
             {
                 if (item.movieTitle == model.movieTitle && item.id != model.id)
                 {

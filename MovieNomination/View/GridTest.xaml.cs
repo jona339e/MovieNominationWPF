@@ -60,6 +60,9 @@ namespace MovieNomination.View
 
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
+
+
+            // commiting adds the data to the list TEST but the data doesn't exist before I commit so I can't validate
             TestGrid.CommitEdit(); // this is needed or the gtm will contain un-edited data
             GridTestModel gtm = this.TestGrid.SelectedItem as GridTestModel;
             if (gtm != null)

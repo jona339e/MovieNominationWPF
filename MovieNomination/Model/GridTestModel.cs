@@ -30,7 +30,7 @@ namespace MovieNomination.Model
 
 
 
-        const string connectionString = @"Data Source=172.23.225.127, 1433;
+        const string connectionString = @"Data Source=172.28.85.164, 1433;
                                             Initial Catalog=MovieNomination;
                                             User ID=WPFLogin;Password=Passw0rd;
                                             encrypt=false;";
